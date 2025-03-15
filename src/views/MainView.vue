@@ -6,7 +6,7 @@
                     <template #title>
                         <div class="card-head">
                             今日已处理图片量
-                            <el-tooltip effect="dark" content="每日处理图片量" placement="top">
+                            <el-tooltip effect="dark" content="每日处理图片量(每5分钟更新)" placement="top">
                                 <el-icon style="margin-left: 4px" :size="12">
                                     <Warning />
                                 </el-icon>
@@ -43,7 +43,7 @@
                     <template #title>
                         <div class="card-head">
                             系统已处理图片量
-                            <el-tooltip effect="dark" content="系统总计处理图片数量" placement="top">
+                            <el-tooltip effect="dark" content="系统总计处理图片数量(每5分钟更新)" placement="top">
                                 <el-icon style="margin-left: 4px" :size="12">
                                     <Warning />
                                 </el-icon>
@@ -59,7 +59,7 @@
                     <template #title>
                         <div class="card-head">
                             系统已识别缺陷
-                            <el-tooltip effect="dark" content="系统总共识别的缺陷数量" placement="top">
+                            <el-tooltip effect="dark" content="系统总共识别的缺陷数量(每日更新)" placement="top">
                                 <el-icon style="margin-left: 4px" :size="12">
                                     <Warning />
                                 </el-icon>

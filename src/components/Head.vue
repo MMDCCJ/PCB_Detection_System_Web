@@ -1,6 +1,6 @@
 <template>
     <div class="head">
-        PCB缺陷识别系统
+        PCB缺陷自动检测系统
     </div>
 
 </template>
