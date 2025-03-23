@@ -30,11 +30,13 @@ const router = useRouter()
 const UserStore = UserState()
 onBeforeMount(() => {
   checkLogin().then((res) => {
+    const currentUrl = window.location.href;
+    const queryUrl = currentUrl.replace(window.location.origin, '');
     if (res.data.code === 200) {
       console.log('已登录')
       UserStore.setUserName(res.data.data['user_name'])
       UserStore.setLogin(true)
-      router.push('/Main')
+      router.push(queryUrl)
     } else {
       UserStore.setLogin(false)
       ElMessage.error('未登录')
