@@ -14,7 +14,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm" style="width: 100%;">{{ isLogin ? '登录' : '注册'
-                    }}</el-button>
+                        }}</el-button>
                 </el-form-item>
             </el-form>
             <div class="toggle-form">
@@ -93,7 +93,7 @@ const submitForm = () => {
                 });
                 UserStore.setLogin(true)
                 UserStore.setUserName(form.value.username)
-                router.push('/Main')
+                router.push('/main')
             } else {
                 ElMessage({
                     message: '用户名或密码错误',

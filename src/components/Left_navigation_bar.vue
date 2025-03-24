@@ -6,7 +6,6 @@ import {
 } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 import { UserState } from '@/stores/store';
-import { onMounted } from 'vue';
 const router = useRouter()
 const UserStore = UserState()
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -31,7 +30,7 @@ const toPage = (path: string) => {
             </div>
         </div>
         <el-menu @open="handleOpen" @close="handleClose" class="menu">
-            <el-menu-item index="1" @click="toPage('/Main')">
+            <el-menu-item index="1" @click="toPage('/main')">
                 <el-icon>
                     <location />
                 </el-icon>
@@ -51,12 +50,24 @@ const toPage = (path: string) => {
                     <el-menu-item index="2-2" @click="toPage('/result')">查看结果</el-menu-item>
                 </el-menu-item-group>
             </el-sub-menu>
-            <el-menu-item index="3" @click="toPage('/settings')">
+            <el-sub-menu index="3">
+                <template #title>
+                    <el-icon>
+                        <Setting />
+                    </el-icon>
+                    <span>系统设置</span>
+                </template>
+                <el-menu-item-group>
+                    <el-menu-item index="3-1" @click="toPage('/ImageSettings')">图像设置</el-menu-item>
+                    <el-menu-item index="3-2" @click="toPage('/UserSettings')">个人信息</el-menu-item>
+                </el-menu-item-group>
+            </el-sub-menu>
+            <!-- <el-menu-item index="3" @click="toPage('/settings')">
                 <el-icon>
                     <Setting />
                 </el-icon>
                 <span>设置</span>
-            </el-menu-item>
+            </el-menu-item> -->
         </el-menu>
     </el-col>
 </template>

@@ -3,7 +3,8 @@ import LoginView from '../views/LoginView.vue'
 import MainView from '@/views/MainView.vue'
 import DetectView from '@/views/DetectView.vue'
 import ResultView from '@/views/ResultView.vue'
-import SettingsView from '@/views/SettingsView.vue'
+import UserSettingsView from '@/views/UserSettingsView.vue'
+import ImageSettingsView from '@/views/ImageSettings.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -15,7 +16,7 @@ const router = createRouter({
       name: 'Login',
     },
     {
-      path: '/Main',
+      path: '/main',
       name: 'Main',
       components: {
         default: MainView,
@@ -36,12 +37,19 @@ const router = createRouter({
       }
     },
     {
-      path: '/settings',
-      name: 'settings',
+      path: '/UserSettings',
+      name: 'UserSettings',
       components: {
-        default: SettingsView
+        default: UserSettingsView
       }
-    }
+    },
+    {
+      path: '/ImageSettings',
+      name: 'ImageSettings',
+      components: {
+        default: ImageSettingsView
+      }
+    },
     // {
     //   path: '/about',
     //   name: 'about',
