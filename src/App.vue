@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="main">
-    <div v-if="!UserStore.getValue('login')">
+    <div v-if="!login">
       <router-view></router-view>
     </div>
-    <div v-if="UserStore.getValue('login')">
+    <div v-if="login">
       <el-row>
 
         <Head />
@@ -22,12 +22,14 @@
 import Left_navigation_bar from "./components/Left_navigation_bar.vue";
 import Head from './components/Head.vue'
 import { checkLogin } from './API/API'
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { UserState } from './stores/store'
 import { ElMessage } from 'element-plus'
+import { storeToRefs } from "pinia";
 const router = useRouter()
 const UserStore = UserState()
+const { login } = storeToRefs(UserStore)
 onBeforeMount(() => {
   checkLogin().then((res) => {
     const currentUrl = window.location.href;
@@ -36,6 +38,10 @@ onBeforeMount(() => {
       console.log('已登录')
       UserStore.setUserName(res.data.data['user_name'])
       UserStore.setLogin(true)
+      console.log(queryUrl)
+      if (queryUrl == "/login") {
+        return router.push('/main')
+      }
       router.push(queryUrl)
     } else {
       UserStore.setLogin(false)

@@ -12,7 +12,8 @@
 
             </el-col>
             <el-col :span="8" :offset="8" class="Save-Colors">
-                <el-button type="primary" size="large">保存设置至云端</el-button>
+                <el-button type="primary" size="large" @click="update_color_settings()">保存设置至云端</el-button>
+                <el-button type="primary" size="large" @click="get_backend_color_settings()">读取云端设置</el-button>
                 <el-button type="primary" size="large" @click="resetColor()">恢复默认</el-button>
             </el-col>
         </el-row>
@@ -21,6 +22,8 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch } from 'vue';
 import { cfg } from '@/cfg/cfg';
+import { ElMessage } from 'element-plus';
+import { get_color_settings, save_color_settings } from '@/API/API';
 // , 'mouse_bite', 'open_circuit', 'short', 'spurious_copper', 'spur'
 const Config = new cfg()
 const PCB_Settings = ref<[{ Label: string, Chinese_label: string, Color: string }]>([{
@@ -40,6 +43,44 @@ const resetColor = () => {
     for (let i = 0; i <= 5; i++) {
         PCB_Settings.value[i].Color = default_color[i]
     }
+    saveToLocalStorage()
+    ElMessage({
+        message: '已恢复默认',
+        type: 'success',
+    });
+}
+const get_backend_color_settings = () => {
+    get_color_settings().then(res => {
+        const color_settings = res.data.data[0].toString() as string
+        let settings = color_settings.split(' ')
+        for (let i = 0, index = 0; i <= 17; i += 3, index++) {
+            let color = `rgb(${settings[i]},${settings[i + 1]},${settings[i + 2]})`
+            PCB_Settings.value[index].Color = color
+        }
+        saveToLocalStorage()
+        ElMessage({
+            message: '成功读取云端设置',
+            type: 'success',
+        });
+    })
+}
+const update_color_settings = () => {
+    let colors = '';
+    for (let i = 0; i <= 5; i++) {
+        let origin_data = PCB_Settings.value[i].Color
+        let rgbs = origin_data.replace('rgb(', '').replace(')', "").split(',')
+        for (let i of rgbs) {
+            colors += i
+            colors += " "
+        }
+    }
+    colors = colors.trimEnd()
+    save_color_settings(colors).then(() => {
+        ElMessage({
+            message: '成功保存设置至云端',
+            type: 'success',
+        });
+    })
 }
 onMounted(() => {
     PCB_Settings.value.pop()
@@ -65,8 +106,7 @@ onMounted(() => {
         }
         resetColor()
     }
-    watch(PCB_Settings.value, () => {
-        console.log("更新数据")
+    watch(PCB_Settings.value, (value, old) => {
         saveToLocalStorage()
     })
 

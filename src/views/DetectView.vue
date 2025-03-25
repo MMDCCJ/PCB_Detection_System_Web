@@ -38,13 +38,33 @@ for (let i = 0; i < 10; i++) {
 }
 import axios from 'axios'
 const predict = () => {
-    predictImg().then(res => {
+    let local_settings: string | string[] | null = localStorage.getItem("Color_Settings")
+    let colors_settings
+    if (local_settings == null) {
+        // 默认颜色设置
+        colors_settings = '20 186 124 174 30 141 75 136 135 101 41 38 50 13 48 107 22 195'
+    } else {
+        local_settings = JSON.parse(local_settings as string)
+        colors_settings = rgbToNum(local_settings as string[])
+    }
+    predictImg(colors_settings).then(res => {
         if (res.data.code === 200) {
             ElMessage.success(res.data.message)
         } else if (res.data.code === 400) {
             ElMessage.error(res.data.message)
         }
     })
+}
+const rgbToNum = (data: string[]): string => {
+    let colors = ""
+    for (let i of data) {
+        let colorList = i.replace("rgb(", "").replace(")", "").split(",")
+        for (let color of colorList) {
+            colors += color.trim().trimEnd()
+            colors += " "
+        }
+    }
+    return colors.trimEnd()
 }
 const upload = async (option: any) => {
     const formData = new FormData()

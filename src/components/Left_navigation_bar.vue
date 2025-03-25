@@ -6,8 +6,10 @@ import {
 } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 import { UserState } from '@/stores/store';
+import { storeToRefs } from 'pinia';
 const router = useRouter()
 const UserStore = UserState()
+const { userName } = storeToRefs(UserStore)
 const handleOpen = (key: string, keyPath: string[]) => {
     // console.log(key, keyPath)
 }
@@ -25,7 +27,7 @@ const toPage = (path: string) => {
         <div class="avatar">
             <el-avatar shape="square" :size="50" :src="squareUrl" />
             <div class="avatar-info">
-                <div class="user-name">{{ UserStore.getValue('user_name') }}</div>
+                <div class="user-name">{{ userName }}</div>
                 <div class="user-state">在线</div>
             </div>
         </div>
